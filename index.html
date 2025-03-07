@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Evolution of Dual-Income Families: A 50-Year Journey</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f7fafc;
+      color: #2d3748;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    
+    h1, h2, h3 {
+      color: #6b46c1;
+    }
+    
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    
+    h3 {
+      font-size: 20px;
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+    
+    .chart-container {
+      height: 400px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    section {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin: 100px 0;
+    }
+    
+    section.highlight {
+      border-left: 4px solid #6b46c1;
+    }
+    
+    p {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    
+    .italic {
+      font-style: italic;
+    }
+    
+    .timeline-indicator {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: #e2e8f0;
+      z-index: 90;
+    }
+    
+    .timeline-progress {
+      height: 100%;
+      background-color: #6b46c1;
+      width: 0;
+      transition: width 0.3s ease;
+    }
+    
+    .event-popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      max-width: 350px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      padding: 15px;
+      border-left: 4px solid #6b46c1;
+      z-index: 90;
+      display: none;
+    }
+    
+    .event-popup.visible {
+      display: block;
+    }
+    
+    .event-popup .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #718096;
+    }
+    
+    ul.bullet-list {
+      list-style: none;
+      margin-left: 20px;
+    }
+    
+    ul.bullet-list li {
+      display: flex;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+    
+    ul.bullet-list li .bullet {
+      color: #6b46c1;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    .info-box {
+      background-color: #ebf4ff;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    
+    .info-box ul {
+      list-style: disc;
+      margin-left: 25px;
+    }
+    
+    .info-box ul li {
+      margin-bottom: 8px;
+    }
+    
+    .info-box a {
+      color: #6b46c1;
+      text-decoration: underline;
+    }
+    
+    .authors-section {
+      margin-top: 80px;
+    }
+    
+    .authors-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    
+    @media (min-width: 768px) {
+      .authors-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .author-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .author-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-color: #edf2f7;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    
+    .author-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .author-name {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .author-bio {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="sticky-header">
+    <h1>The Evolution of Dual-Income Families: A 50-Year Journey</h1>
+    <h2 id="year-display">Timeline: 1970</h2>
+    <div class="chart-container" id="chart-container"></div>
+  </div>
+  
+  <div class="container">
+    <section>
+      <h2>The 1970s: Women's Liberation Movement</h2>
+      <p>
+        The 1970s marked a significant shift in women's participation in the workforce. 
+        The women's liberation movement encouraged more married women to pursue careers outside the home. 
+        During this period, dual-income households began to rise steadily as economic pressures and 
+        changing social norms supported women's employment.
+      </p>
+    </section>
+    
+    <section>
+      <h2>The 1980s: Career Women Era</h2>
+      <p>
+        The 1980s saw the rise of the "career woman" archetype in popular culture, normalizing 
+        the dual-income household. Women's educational attainment increased dramatically, 
+        enabling access to professional and managerial positions. The percentage of 
+        husband-wife dual-earner families continued its upward trend throughout the decade.
+      </p>
+    </section>
+    
+    <section>
+      <h2>The 1990s: Peak Dual-Income Era</h2>
+      <p>
+        By the 1990s, dual-income households had become the norm rather than the exception. 
+        The chart shows the highest proportion of husband-wife dual earners during this decade. 
+        Economic necessity played a significant role, as middle-class families increasingly relied 
+        on two incomes to maintain their standard of living.
+      </p>
+    </section>
+    
+    <section>
+      <h2>2000-2010: Recession Impact</h2>
+      <p>
+        The early 2000s recession and then the 2008 financial crisis had mixed effects on dual-income households. 
+        In some cases, women's employment served as a financial safety net when male-dominated industries suffered job losses. 
+        However, the overall proportion of dual-income households slightly decreased during economic downturns.
+      </p>
+    </section>
+    
+    <section>
+      <h2>2010-2020: Modern Workforce Dynamics</h2>
+      <p>
+        The 2010s saw stable patterns of dual-income households with slight shifts in household composition. 
+        The number of wife-only income households continued to grow gradually, reflecting changing gender roles. 
+        By 2020, the COVID-19 pandemic created new challenges for working families, with impacts that varied widely 
+        by industry, income level, and gender.
+      </p>
+    </section>
+    
+    <section class="highlight">
+      <h2>Moving Forward: Legislative Support for Dual-Income Families</h2>
+      <p>
+        As our data shows, dual-income households have become the dominant family structure in America. Here are key legislative changes that could provide better support:
+      </p>
+      
+      <h3>Federal Level Changes</h3>
+      <p class="italic">Contact your U.S. Senators and House Representative</p>
+      <ul class="bullet-list">
+        <li>
+          <span class="bullet">•</span>
+          <span><strong>Federal Paid Family Leave:</strong> Establish a national paid family and medical leave program ensuring all workers can take time off to care for new children or family health needs without losing their income.</span>
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          <span><strong>Universal Pre-K:</strong> Fund universal pre-kindergarten programs nationwide to reduce childcare costs for working families with young children.</span>
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          <span><strong>Expanded Child Tax Credits:</strong> Make permanent the expanded Child Tax Credit that provides direct monthly payments to families with children, reducing financial pressure on dual-income households.</span>
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          <span><strong>Social Security Caregiver Credits:</strong> Reform Social Security to provide credits for parents who take time out of the workforce, ensuring career breaks don't reduce retirement benefits.</span>
+        </li>
+      </ul>
+      
+      <h3>State Level Changes</h3>
+      <p class="italic">Contact your State Legislators and Governor</p>
+      <ul class="bullet-list">
+        <li>
+          <span class="bullet">•</span>
+          <span><strong>State-Funded Childcare Subsidies:</strong> Expand income eligibility for childcare assistance programs to include middle-income families who are struggling with the high cost of quality childcare.</span>
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          <span><strong>Flexible Work Protections:</strong> Enact "right-to-request" laws requiring employers to consider flexibility requests for parents, with legal protections against discrimination for those who make such requests.</span>
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          <span><strong>Tax Credits for Businesses:</strong> Create state tax incentives for companies that establish on-site childcare, generous parental leave, or other family-friendly policies.</span>
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          <span><strong>Housing Affordability Initiatives:</strong> Implement zoning reforms and housing subsidies in high-cost areas where dual incomes are necessary but housing costs consume most family budgets.</span>
+        </li>
+      </ul>
+      
+      <div class="info-box">
+        <h3>How to Make Your Voice Heard</h3>
+        <ul>
+          <li><strong>Find your representatives:</strong> Visit <a href="https://www.usa.gov/elected-officials">usa.gov/elected-officials</a> to locate your federal, state, and local representatives.</li>
+          <li><strong>Be specific:</strong> When contacting representatives, mention specific bills or proposals related to family support that you would like them to champion or support.</li>
+          <li><strong>Share your story:</strong> Personal experiences from constituents are powerful. Share how dual-income challenges affect your family directly.</li>
+          <li><strong>Join advocacy groups:</strong> Organizations like MomsRising, National Partnership for Women & Families, and Family Values @ Work advocate for these issues and provide resources for civic engagement.</li>
+        </ul>
+      </div>
+      
+      <p class="italic">
+        Legislative change can create systemic support for the millions of American families balancing work and childcare responsibilities. By addressing these issues at both federal and state levels, we can build an economy that truly supports modern family structures.
+      </p>
+    </section>
+    
+    <section class="authors-section">
+      <h2>About the Authors</h2>
+      
+      <div class="authors-grid">
+        <!-- Author 1 -->
+        <div class="author-card">
+          <div class="author-image">
+            <img src="https://via.placeholder.com/200" alt="Add your photo here">
+          </div>
+          <div class="author-name">Your Name</div>
+          <div class="author-bio">
+            <p class="italic">Your WHY: [Add your bio here]</p>
+          </div>
+        </div>
+        
+        <!-- Author 2 -->
+        <div class="author-card">
+          <div class="author-image">
+            <img src="https://via.placeholder.com/200" alt="Kelsey's photo">
+          </div>
+          <div class="author-name">Kelsey Taylor</div>
+          <div class="author-bio">
+            <p class="italic"><strong>Kelsey's WHY:</strong> My name is Kelsey Taylor, I am a wife and mother to two children and am currently employed as an Analytics Engineer. I started my journey into a tech career out of desperate necessity to provide for my family, so the topic of mothers in the workforce is of particular interest to me. When my husband got sick back in 2021, I was a stay-at-home mom with no skillset or means to find work that could provide for my family. I found Tech-Mom's and graduated Fall 2021, and so began my journey to break into tech.</p>
+            <p class="italic">The skills Tech-Mom's taught me, and the confidence they instilled, opened the door for a scholarship opportunity thereby allowing me to participate in DevMountain's Programming Bootcamp where I specialized in Data Analytics. Graduation from there was followed by an Analytics Engineering internship, and eventual full-time employment as an Analytics Engineer, all while being a full-time mother and caretaker to my 2-year-old and newborn baby.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="event-popup" id="event-popup">
+    <button class="close" id="close-popup">✕</button>
+    <h3 id="event-title"></h3>
+    <p id="event-description"></p>
+  </div>
+  
+  <div class="timeline-indicator">
+    <div class="timeline-progress" id="timeline-progress"></div>
+  </div>
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Simple visualization with HTML instead of D3.js
+    var chartContainer = document.getElementById('chart-container');
+    var yearDisplay = document.getElementById('year-display');
+    var timelineProgress = document.getElementById('timeline-progress');
+    var eventPopup = document.getElementById('event-popup');
+    var eventTitle = document.getElementById('event-title');
+    var eventDescription = document.getElementById('event-description');
+    var closePopupButton = document.getElementById('close-popup');
+    
+    // Create static SVG for the visualization
+    chartContainer.innerHTML = `
+      <svg width="100%" height="100%" viewBox="0 0 800 400">
+        <!-- Background -->
+        <rect width="800" height="400" fill="#f8fafc" />
+        
+        <!-- Chart area -->
+        <g transform="translate(50, 20)">
+          <!-- X axis -->
+          <line x1="0" y1="330" x2="700" y2="330" stroke="#718096" stroke-width="1" />
+          <text x="0" y="350" fill="#4a5568">1970</text>
+          <text x="140" y="350" fill="#4a5568">1980</text>
+          <text x="280" y="350" fill="#4a5568">1990</text>
+          <text x="420" y="350" fill="#4a5568">2000</text>
+          <text x="560" y="350" fill="#4a5568">2010</text>
+          <text x="700" y="350" fill="#4a5568">2020</text>
+          
+          <!-- Y axis -->
+          <line x1="0" y1="0" x2="0" y2="330" stroke="#718096" stroke-width="1" />
+          <text x="-30" y="330" fill="#4a5568">0k</text>
+          <text x="-30" y="250" fill="#4a5568">10k</text>
+          <text x="-30" y="170" fill="#4a5568">20k</text>
+          <text x="-30" y="90" fill="#4a5568">30k</text>
+          <text x="-30" y="10" fill="#4a5568">40k</text>
+          
+          <!-- Y axis label -->
+          <text transform="rotate(-90)" x="-165" y="-40" fill="#4a5568">Number of Employed People</text>
+          
+          <!-- Data area -->
+          <path d="M0,330 L0,180 L140,150 L280,120 L420,100 L560,110 L700,120 L700,330 Z" fill="#b83280" opacity="0.7" />
+          <path d="M0,180 L0,80 L140,90 L280,100 L420,110 L560,110 L700,90 L700,120 Z" fill="#2c7a7b" opacity="0.7" />
+          <path d="M0,80 L0,30 L140,20 L280,10 L420,10 L560,20 L700,40 L700,90 Z" fill="#6b46c1" opacity="0.7" />
+          
+          <!-- Legend -->
+          <g transform="translate(550, 20)">
+            <rect width="15" height="15" fill="#6b46c1" />
+            <text x="20" y="12" fill="#4a5568">Husband & Wife</text>
+            
+            <rect y="25" width="15" height="15" fill="#2c7a7b" />
+            <text x="20" y="37" fill="#4a5568">Husband Only</text>
+            
+            <rect y="50" width="15" height="15" fill="#b83280" />
+            <text x="20" y="62" fill="#4a5568">Wife Only</text>
+          </g>
+        </g>
+      </svg>
+    `;
+    
+    // Historical events data
+    var historicalEvents = [
+      {
+        year: 1972,
+        title: "Title IX",
+        description: "Title IX of the Education Amendments prohibited sex discrimination in federally funded education programs, boosting women's access to education and career opportunities."
+      },
+      {
+        year: 1978,
+        title: "Pregnancy Discrimination Act",
+        description: "The Pregnancy Discrimination Act prohibited employment discrimination against pregnant women, protecting their jobs during pregnancy and maternity leave."
+      },
+      {
+        year: 1981, 
+        title: "First Female Supreme Court Justice",
+        description: "Sandra Day O'Connor became the first female Supreme Court Justice, symbolizing women's advancement into prestigious professional roles."
+      },
+      {
+        year: 1993,
+        title: "Family and Medical Leave Act",
+        description: "The Family and Medical Leave Act provided job-protected unpaid leave for family and medical reasons, supporting working parents of all genders."
+      },
+      {
+        year: 2009,
+        title: "Lilly Ledbetter Fair Pay Act",
+        description: "The Lilly Ledbetter Fair Pay Act strengthened protections against pay discrimination, addressing the gender wage gap that affected dual-income households."
+      },
+      {
+        year: 2020,
+        title: "COVID-19 Pandemic",
+        description: "The pandemic disproportionately impacted women in the workforce, with many leaving jobs due to childcare responsibilities and service industry closures."
+      }
+    ];
+    
+    // Variables
+    var activeYear = 1970;
+    var activeEvent = null;
+    
+    // Check for historical events near the active year
+    function checkForEvents() {
+      var relevantEvent = null;
+      
+      for (var i = 0; i < historicalEvents.length; i++) {
+        var event = historicalEvents[i];
+        if (Math.abs(event.year - activeYear) < 2 && event.year <= activeYear) {
+          relevantEvent = event;
+          break;
+        }
+      }
+      
+      if (relevantEvent !== activeEvent) {
+        activeEvent = relevantEvent;
+        
+        if (activeEvent) {
+          eventTitle.textContent = activeEvent.year + ': ' + activeEvent.title;
+          eventDescription.textContent = activeEvent.description;
+          eventPopup.classList.add('visible');
+        } else {
+          eventPopup.classList.remove('visible');
+        }
+      }
+    }
+    
+    // Handle scroll events
+    function handleScroll() {
+      var scrollPosition = window.scrollY;
+      var documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var scrollPercentage = Math.min(scrollPosition / (documentHeight * 0.8), 1);
+      
+      // Map scroll percentage to year range (1970-2020)
+      var yearRange = 2020 - 1970;
+      var newYear = Math.round(1970 + (yearRange * scrollPercentage));
+      
+      if (newYear !== activeYear) {
+        activeYear = newYear;
+        
+        // Update year display
+        yearDisplay.textContent = 'Timeline: ' + activeYear;
+        
+        // Update timeline progress
+        var progressPercentage = (activeYear - 1970) / (2020 - 1970) * 100;
+        timelineProgress.style.width = progressPercentage + '%';
+        
+        // Check for relevant events
+        checkForEvents();
+      }
+    }
+    
+    // Setup event listeners
+    window.addEventListener('scroll', handleScroll);
+    
+    closePopupButton.addEventListener('click', function() {
+      eventPopup.classList.remove('visible');
+      activeEvent = null;
+    });
+  });
+  </script>
+</body>
+</html>
